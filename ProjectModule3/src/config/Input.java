@@ -10,8 +10,8 @@ public class Input {
         int inputInt;
         while (true)
             try {
-                System.out.println("Mời lựa chọn");
-                inputInt = Integer.parseInt(input.nextLine());
+//                System.out.println("Mời lựa chọn");
+                inputInt = Integer.parseInt(input.nextLine().trim());
                 break;
             } catch (NumberFormatException e) {
                 System.err.println("Sai định dạng vui lòng nhập số!");
@@ -20,7 +20,7 @@ public class Input {
     }
 
     public static String inputString() {
-        return inputString.nextLine();
+        return inputString.nextLine().trim();
     }
 
 }

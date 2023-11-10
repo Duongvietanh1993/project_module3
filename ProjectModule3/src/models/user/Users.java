@@ -1,11 +1,14 @@
 package models.user;
 
-import java.io.Serializable;
-import java.nio.charset.Charset;
+import java.io.*;
+import java.util.Scanner;
+
+import static config.Color.*;
+
 
 public class Users implements Serializable {
-    private static int count = 1;
-    private String id;
+    private static final long serialVersionUID = 1L;
+    private int id;
     private String userName;
     private String email;
     private String address;
@@ -16,11 +19,11 @@ public class Users implements Serializable {
     private RoleLogin role = RoleLogin.USER;
 
     public Users() {
-        this.id = generateUserId();
+
     }
 
-    public Users(String fullName, String userName, String password, String email, String phone,String address, boolean status, RoleLogin role) {
-        this.id = generateUserId();
+    public Users(int id, String fullName, String userName, String password, String email, String phone, String address, boolean status, RoleLogin role) {
+        this.id = id;
         this.userName = userName;
         this.email = email;
         this.fullName = fullName;
@@ -31,16 +34,11 @@ public class Users implements Serializable {
         this.role = role;
     }
 
-    private String generateUserId() {
-        String id = "US" + String.format("%03d", count++);
+    public int getId() {
         return id;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -96,6 +94,14 @@ public class Users implements Serializable {
         return status;
     }
 
+    public void setStatus(Scanner scanner) {
+        System.out.println(
+                "Trạng thái: " + '\n' +
+                        "1.true" + '\n' +
+                        "2.false");
+        this.status = Integer.parseInt(scanner.nextLine()) == 1;
+    }
+
     public RoleLogin getRole() {
         return role;
     }
@@ -113,9 +119,12 @@ public class Users implements Serializable {
                 " - Email: " + email +
                 " - Số điện thoại: " + phone +
                 " - Số địa chỉ: " + address +
-                " - Trạng thái: " + (status ? "UNLOCK" : "LOCK") +
+                " - Trạng thái: " + (status ? "Mở" : "Khóa") +
                 " - Phân quyền: " + role;
     }
 
-
+    public void display() {
+        System.out.printf(BRIGHT_ORANGE_BOLD + "|  " + WHITE_BRIGHT + "%-3S" + BRIGHT_ORANGE_BOLD + "|  " + WHITE_BRIGHT + "%-15s" + BRIGHT_ORANGE_BOLD + "|  " + WHITE_BRIGHT + "%-18s" + BRIGHT_ORANGE_BOLD + "|  " + WHITE_BRIGHT + "%-16s" + BRIGHT_ORANGE_BOLD + "|  " + WHITE_BRIGHT + "%-22s" + BRIGHT_ORANGE_BOLD + "|      " + WHITE_BRIGHT + "%-11s" + BRIGHT_ORANGE_BOLD + "|     " + WHITE_BRIGHT + "%-14s" + BRIGHT_ORANGE_BOLD + "|   " + WHITE_BRIGHT + "%-9s" + BRIGHT_ORANGE_BOLD + "|\n",
+                id, fullName, email, phone, address, userName, (status ? GREEN_BOLD_BRIGHT + "Mở" : RED_BOLD_BRIGHT + "Khóa"), role);
+    }
 }

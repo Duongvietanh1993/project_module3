@@ -14,11 +14,17 @@ public class Config<T> {
     static File fileProduct = new File("ProjectModule3/data/product.csv");
     public static final String URL_PRODUCT = String.valueOf(fileProduct);
 
-    static File fileCategories = new File("ProjectModule3/data/categories.csv");
-    public static final String URL_CATEGORY = String.valueOf(fileCategories);
+    static File fileCategories = new File("ProjectModule3/data/catalog.csv");
+    public static final String URL_CATALOG = String.valueOf(fileCategories);
 
-    static File fileUserLogin=new File("ProjectModule3/data/userLogin.csv");
+    static File fileUserLogin = new File("ProjectModule3/data/userLogin.csv");
     public static final String URL_USER_LOGIN = String.valueOf(fileUserLogin);
+
+    static File fileCart=new File("ProjectModule3/data/cart.csv");
+    public static final String URL_CART = String.valueOf(fileCart);
+
+    static File fileOrder=new File("ProjectModule3/data/order.csv");
+    public static final String URL_ORDER = String.valueOf(fileOrder);
 
     public void writeFile(String PATH_FILE, T t) {
         File file = new File(PATH_FILE);
@@ -26,32 +32,30 @@ public class Config<T> {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(t);
-            fos.close();
             oos.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Không tim thấy!!!");
-        } catch (IOException e) {
-            System.err.println("Ghi file lỗi!!!");
+            fos.close();
+        } catch (Exception e) {
+            System.err.println("Lỗi ghi file!!!");
         }
     }
 
-    public T readFile(String PATH_FILE){
+    public T readFile(String PATH_FILE) {
         File file = new File(PATH_FILE);
         T t = null;
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             t = (T) ois.readObject();
-            if (fis != null){
+            if (fis != null) {
                 fis.close();
             }
-            if (ois != null){
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Không tim thấy!!!");
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Đọc file lỗi!!!");
+            ois.close();
+        } catch (FileNotFoundException f) {
+            System.err.println("Không tìm thấy file!!!");
+        } catch (IOException i) {
+            System.err.println("File rỗng!!!");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Lớp ngoại lệ! ");
         }
         return t;
     }
